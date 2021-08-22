@@ -1,0 +1,24 @@
+﻿  compilation object save succeeded; see C:\Users\donch\Desktop\DX11_GAME_1\vertexLightingPS.cso
+  compilation object save succeeded; see C:\Users\donch\Desktop\DX11_GAME_1\vertexLightingVS.cso
+  audio.cpp
+  bullet.cpp
+  camera.cpp
+  enemy.cpp
+  explosion.cpp
+  field.cpp
+  game.cpp
+  input.cpp
+  main.cpp
+  manager.cpp
+  missile.cpp
+  model.cpp
+  player.cpp
+  polygon2D.cpp
+  ray.cpp
+  renderer.cpp
+  result.cpp
+  title.cpp
+  コード生成しています。
+  All 352 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  コード生成が終了しました。
+  DX11.vcxproj -> C:\Users\donch\Desktop\DX11_GAME_1\x64\Release\DX11.exe
