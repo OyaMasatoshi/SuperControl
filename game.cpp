@@ -31,7 +31,8 @@ void Game::Initialize()
 	AddGameObject<Enemy>(Layer::Object)->SetPosition(D3DXVECTOR3(0.0, 1.0f, 5.0f));
 	AddGameObject<Enemy>(Layer::Object)->SetPosition(D3DXVECTOR3(3.0, 1.0f, 5.0f));
 
-	AddGameObject<Polygon2D>(Layer::Polygon2D);
+	Polygon2D* paint = AddGameObject<Polygon2D>(Layer::Polygon2D);
+	paint->SetTexture("asset/texture/è∞.jpeg", 480, 770, 100, 100, 0, 0, 1, 1);
 
 	//AddGameObject<Bullet>();
 

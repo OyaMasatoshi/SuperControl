@@ -11,22 +11,22 @@ void Polygon2D::Initialize()
 {
 	VERTEX_3D vertex[4];
 
-	vertex[0].Position = D3DXVECTOR3( 0.0f, 540.0f, 0.0f );
+	vertex[0].Position = D3DXVECTOR3( 0.0f, 0.0f, 0.0f );
 	vertex[0].Normal   = D3DXVECTOR3( 0.0f, 0.0f, 0.0f );
 	vertex[0].Diffuse  = D3DXVECTOR4( 1.0f, 1.0f, 1.0f, 1.0f );	// 色
 	vertex[0].TexCoord = D3DXVECTOR2( 0.0f, 0.0f );				// テクスチャの座標
 
-	vertex[1].Position = D3DXVECTOR3( 960.0f, 540.0f, 0.0f );
+	vertex[1].Position = D3DXVECTOR3( 10.0f, 0.0f, 0.0f );
 	vertex[1].Normal   = D3DXVECTOR3( 0.0f, 0.0f, 0.0f );
 	vertex[1].Diffuse  = D3DXVECTOR4( 1.0f, 1.0f, 1.0f, 1.0f );
 	vertex[1].TexCoord = D3DXVECTOR2( 1.0f, 0.0f );
 
-	vertex[2].Position = D3DXVECTOR3( 0.0f, 1080.0f, 0.0f );
+	vertex[2].Position = D3DXVECTOR3( 0.0f, 10.0f, 0.0f );
 	vertex[2].Normal   = D3DXVECTOR3( 0.0f, 0.0f, 0.0f );
 	vertex[2].Diffuse  = D3DXVECTOR4( 1.0f, 1.0f, 1.0f, 1.0f );
 	vertex[2].TexCoord = D3DXVECTOR2( 0.0f, 1.0f );
 
-	vertex[3].Position = D3DXVECTOR3( 960.0f, 1080.0f, 0.0f );
+	vertex[3].Position = D3DXVECTOR3( 10.0f, 10.0f, 0.0f );
 	vertex[3].Normal   = D3DXVECTOR3( 0.0f, 0.0f, 0.0f );
 	vertex[3].Diffuse  = D3DXVECTOR4( 1.0f, 1.0f, 1.0f, 1.0f );
 	vertex[3].TexCoord = D3DXVECTOR2( 1.0f, 1.0f );
@@ -45,20 +45,12 @@ void Polygon2D::Initialize()
 
 	// テクスチャ読み込み
 	D3DX11CreateShaderResourceViewFromFile( Renderer::GetDevice(),
-											"asset/texture/Title.png",
+											"asset/texture/Error_Texture.png",
 											NULL,
 											NULL,
 											&m_Texture,
 											NULL );
 	assert(m_Texture);
-
-	D3DX11CreateShaderResourceViewFromFile(Renderer::GetDevice(),
-		                                    "asset/texture/Result_Good.png",
-		                                    NULL,
-		                                    NULL,
-		                                    &m_Texture1,
-		                                    NULL);
-	assert(m_Texture1);
 
 
 
@@ -123,7 +115,59 @@ void Polygon2D::Draw()
 
 }
 
-void Polygon2D::SetTexture(int num)
+void Polygon2D::SetTexture(const char* pFileName, float x, float y, float size_width, float size_height,float start_u, float start_v, float texture_u,float texture_v)
 {
-	g_num = num;
+	// 頂点データ書き換え
+	VERTEX_3D vertex[4];
+
+	float defx = x - size_width / 2;
+	float defy = y - size_height / 2;
+
+	vertex[0].Position = D3DXVECTOR3(defx, defy, 0.0f);
+	vertex[0].Normal   = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	vertex[0].Diffuse  = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);	// 色
+	vertex[0].TexCoord = D3DXVECTOR2(start_u, start_v);				// テクスチャの座標
+
+	vertex[1].Position = D3DXVECTOR3(defx + size_width, defy, 0.0f);
+	vertex[1].Normal   = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	vertex[1].Diffuse  = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[1].TexCoord = D3DXVECTOR2(start_u + texture_u, start_v);
+
+	vertex[2].Position = D3DXVECTOR3(defx, defy + size_height, 0.0f);
+	vertex[2].Normal   = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	vertex[2].Diffuse  = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[2].TexCoord = D3DXVECTOR2(start_u, start_v + texture_v);
+
+	vertex[3].Position = D3DXVECTOR3(defx + size_width, defy + size_height, 0.0f);
+	vertex[3].Normal   = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	vertex[3].Diffuse  = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[3].TexCoord = D3DXVECTOR2(start_u + texture_u, start_v + texture_v);
+
+	// 頂点バッファ生成
+	D3D11_BUFFER_DESC bd{};
+	bd.Usage = D3D11_USAGE_DEFAULT;
+	bd.ByteWidth = sizeof(VERTEX_3D) * 4;
+	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	bd.CPUAccessFlags = 0;
+
+	D3D11_SUBRESOURCE_DATA sd{};
+	sd.pSysMem = vertex;
+
+	Renderer::GetDevice()->CreateBuffer(&bd, &sd, &m_VertexBuffer);
+
+	// テクスチャ読み込み
+	D3DX11CreateShaderResourceViewFromFile(Renderer::GetDevice(),
+		pFileName,
+		NULL,
+		NULL,
+		&m_Texture,
+		NULL);
+
+	// テクスチャ設定
+	Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture);
+
+	// シェーダ設定
+	Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, NULL, 0);
+	Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);
+
 }

@@ -24,7 +24,7 @@ public:
 	void Update();
 	void Draw();
 
-	void SetTexture(int num);
+	void SetTexture(const char* pFileName, float x, float y, float size_width, float size_height, float start_u, float start_v, float texture_u, float texture_v);
 
 };
 

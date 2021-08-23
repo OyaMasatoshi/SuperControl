@@ -9,10 +9,10 @@
 
 void Title::Initialize()
 {
-	AddGameObject<Polygon2D>(Layer::Polygon2D);
 	Scene* scene = Manager::GetScene();
-	Polygon2D* poly = scene->GetGameObject<Polygon2D>(Layer::Object);
-	poly->SetTexture(0);
+
+	Polygon2D* title_texture = scene->AddGameObject<Polygon2D>(Layer::Polygon2D);
+	title_texture->SetTexture("asset/texture/Title.png", 480, 270, 960, 540, 0.0f, 0.0f, 1.0f, 1.0f);
 }
 
 void Title::Finalize()

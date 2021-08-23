@@ -13,7 +13,7 @@ void Result::Initialize()
 	AddGameObject<Polygon2D>(Layer::Polygon2D);
 	Scene* scene = Manager::GetScene();
 	Polygon2D* poly = scene->GetGameObject<Polygon2D>(Layer::Object);
-	poly->SetTexture(1);
+
 }
 
 void Result::Finalize()
