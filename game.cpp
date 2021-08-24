@@ -7,6 +7,7 @@
 #include "player.h"
 #include "enemy.h"
 #include "bullet.h"
+#include "texture.h"
 #include "polygon2D.h"
 #include "explosion.h"
 #include "input.h"
@@ -32,7 +33,10 @@ void Game::Initialize()
 	AddGameObject<Enemy>(Layer::Object)->SetPosition(D3DXVECTOR3(3.0, 1.0f, 5.0f));
 
 	Polygon2D* paint = AddGameObject<Polygon2D>(Layer::Polygon2D);
-	paint->SetTexture("asset/texture/床.jpeg", 480, 770, 100, 100, 0, 0, 1, 1);
+
+	int test = Texture::SetLoadFile("asset/texture/床.jpeg");
+	Texture::Load();
+	paint->SetTexture(test, 480, 770, 100, 100, 0, 0, 1, 1);
 
 	//AddGameObject<Bullet>();
 
@@ -70,4 +74,5 @@ void Game::Finalize()
 	Scene::Finalize();// 継承元クラスのメソッドの呼び出し
 	Bullet::Unload();
 	Missile::Unload();
+	Texture::AllRelease();
 }

@@ -4,8 +4,7 @@
 #include "polygon2D.h"
 #include "scene.h"
 #include "manager.h"
-
-int g_num = 0;
+#include "texture.h"
 
 void Polygon2D::Initialize()
 {
@@ -43,7 +42,7 @@ void Polygon2D::Initialize()
 
 	Renderer::GetDevice()->CreateBuffer( &bd, &sd, &m_VertexBuffer );
 
-	// テクスチャ読み込み
+	// テクスチャ読み込み(旧)
 	D3DX11CreateShaderResourceViewFromFile( Renderer::GetDevice(),
 											"asset/texture/Error_Texture.png",
 											NULL,
@@ -52,7 +51,9 @@ void Polygon2D::Initialize()
 											NULL );
 	assert(m_Texture);
 
-
+	// テクスチャ読み込み
+	//int textureid = Texture::SetLoadFile("asset/texture/Error_Texture.png");
+	//Texture::Texture_GetTexture(textureid, m_Texture);
 
 	// unlit(ライティング無し）
 	// シェーダーの作成
@@ -98,14 +99,7 @@ void Polygon2D::Draw()
 	Renderer::GetDeviceContext()->IASetVertexBuffers( 0, 1, &m_VertexBuffer, &stride, &offset );
 
 	// テクスチャ設定
-	if (g_num == 0)
-	{
-		Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture);
-	}
-	else
-	{
-		Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture1);
-	}
+	Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture);
 
 	// プリミティブトポロジ設定（ポリゴンをどうやって書くか）
 	Renderer::GetDeviceContext()->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
@@ -115,7 +109,7 @@ void Polygon2D::Draw()
 
 }
 
-void Polygon2D::SetTexture(const char* pFileName, float x, float y, float size_width, float size_height,float start_u, float start_v, float texture_u,float texture_v)
+void Polygon2D::SetTexture(int textureid, float x, float y, float size_width, float size_height,float start_u, float start_v, float texture_u,float texture_v)
 {
 	// 頂点データ書き換え
 	VERTEX_3D vertex[4];
@@ -156,12 +150,7 @@ void Polygon2D::SetTexture(const char* pFileName, float x, float y, float size_w
 	Renderer::GetDevice()->CreateBuffer(&bd, &sd, &m_VertexBuffer);
 
 	// テクスチャ読み込み
-	D3DX11CreateShaderResourceViewFromFile(Renderer::GetDevice(),
-		pFileName,
-		NULL,
-		NULL,
-		&m_Texture,
-		NULL);
+	m_Texture = Texture::Texture_GetTexture(textureid);
 
 	// テクスチャ設定
 	Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture);

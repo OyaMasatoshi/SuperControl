@@ -7,6 +7,7 @@
 #include "game.h"
 #include "title.h"
 #include "result.h"
+#include "texture.h"
 
 Scene* Manager::m_Scene = nullptr;
 
@@ -16,6 +17,7 @@ void Manager::Initialize()
 	Renderer::Initialize();
 	Input::Initialize();
 	Audio::InitMaster();
+	Texture::Initialize();
 
 	//m_Scene = new Game();
 	//m_Scene->Init();
@@ -30,7 +32,7 @@ void Manager::Finalize()
 	m_Scene->Finalize();
 	delete m_Scene;
 
-
+	Texture::Finalize();
 	Audio::UninitMaster();
 	Input::Finalize();
 	Renderer::Finalize();

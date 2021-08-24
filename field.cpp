@@ -2,6 +2,7 @@
 #include "main.h"
 #include "renderer.h"
 #include "field.h"
+#include "texture.h"
 
 void Field3D::Initialize()
 {
@@ -40,13 +41,9 @@ void Field3D::Initialize()
 	Renderer::GetDevice()->CreateBuffer( &bd, &sd, &m_VertexBuffer );
 
 	// テクスチャ読み込み
-	D3DX11CreateShaderResourceViewFromFile(Renderer::GetDevice(),
-										   "asset/texture/床.jpeg",
-										   NULL,
-										   NULL,
-										   &m_Texture,
-										   NULL);
-	assert(m_Texture);
+	int test = Texture::SetLoadFile("asset/texture/床.jpeg");
+	Texture::Load();
+	m_Texture = Texture::Texture_GetTexture(test);
 
 	// シェーダーの作成
 	Renderer::CreateVertexShader( &m_VertexShader, &m_VertexLayout, "vertexLightingVS.cso" );

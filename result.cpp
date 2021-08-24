@@ -4,20 +4,25 @@
 #include "input.h"
 #include "game.h"
 #include "title.h"
+#include "texture.h"
 #include "polygon2D.h"
 
 #include "result.h"
 
 void Result::Initialize()
 {
-	AddGameObject<Polygon2D>(Layer::Polygon2D);
 	Scene* scene = Manager::GetScene();
-	Polygon2D* poly = scene->GetGameObject<Polygon2D>(Layer::Object);
+
+	int test = Texture::SetLoadFile("asset/texture/Result_Good.png");
+	Texture::Load();
+	Polygon2D* title_texture = scene->AddGameObject<Polygon2D>(Layer::Polygon2D);
+	title_texture->SetTexture(test, 480, 270, 960, 540, 0.0f, 0.0f, 1.0f, 1.0f);
 
 }
 
 void Result::Finalize()
 {
+	Texture::AllRelease();
 	Scene::Finalize();// 継承元クラスのメソッドの呼び出し
 }
 
