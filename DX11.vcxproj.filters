@@ -84,6 +84,9 @@
     <ClCompile Include="texture.cpp">
       <Filter>ソース ファイル\system</Filter>
     </ClCompile>
+    <ClCompile Include="button.cpp">
+      <Filter>ソース ファイル\game_object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scene.h">
@@ -145,9 +148,6 @@
     </ClInclude>
     <ClInclude Include="result.h">
       <Filter>ソース ファイル\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="button_circle.h">
-      <Filter>ソース ファイル\game_object</Filter>
     </ClInclude>
     <ClInclude Include="button.h">
       <Filter>ソース ファイル\game_object</Filter>

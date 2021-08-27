@@ -1,15 +1,32 @@
 #pragma once
 
 #include "main.h"
-#include "gameObject.h"
+#include "polygon2D.h"
 
-class BUTTON : public GameObject
+enum class ButtonType
+{
+	Circle,
+	Square,
+	ButtonAll
+};
+
+
+class Button : public Polygon2D
 {
 private:
-	D3DXVECTOR2 m_Position2D;
+	int m_Texture;
+	bool m_IsHold;
+	ButtonType m_Type;
+
+	bool _IsCollision(float x, float y);
 
 public:
 
+	void Initialize();
+	void Finalize();
+	void Update();
+	void Draw();
 
-
+	bool IsPush();
+	bool IsTrigerr();
 };

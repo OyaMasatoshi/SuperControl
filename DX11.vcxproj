@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="audio.cpp" />
     <ClCompile Include="bullet.cpp" />
+    <ClCompile Include="button.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="explosion.cpp" />
@@ -43,7 +44,6 @@
     <ClInclude Include="audio.h" />
     <ClInclude Include="bullet.h" />
     <ClInclude Include="button.h" />
-    <ClInclude Include="button_circle.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="explosion.h" />

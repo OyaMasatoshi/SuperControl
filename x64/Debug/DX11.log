@@ -1,4 +1,4 @@
-﻿  field.cpp
+﻿  title.cpp
 c:\users\donch\desktop\自作\supercontrol\main.h(3): warning C4005: '_CRT_SECURE_NO_WARNINGS': マクロが再定義されました。
-  c:\users\donch\desktop\自作\supercontrol\field.cpp: note: '_CRT_SECURE_NO_WARNINGS' の以前の定義を確認してください
+  c:\users\donch\desktop\自作\supercontrol\title.cpp: note: '_CRT_SECURE_NO_WARNINGS' の以前の定義を確認してください
   DX11.vcxproj -> C:\Users\donch\Desktop\自作\SuperControl\x64\Debug\DX11.exe

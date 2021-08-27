@@ -8,27 +8,35 @@
 
 void Polygon2D::Initialize()
 {
+	m_Coordinate = D3DXVECTOR2(0.0f, 0.0f);
+	m_Size       = D3DXVECTOR2(1.0f, 1.0f);
+	m_UV_Origin  = D3DXVECTOR2(0.0f, 0.0f);
+	m_UV_Size    = D3DXVECTOR2(1.0f, 1.0f);
+
+	float defx = m_Coordinate.x - m_Size.x / 2;
+	float defy = m_Coordinate.y - m_Size.y / 2;
+
 	VERTEX_3D vertex[4];
 
-	vertex[0].Position = D3DXVECTOR3( 0.0f, 0.0f, 0.0f );
+	vertex[0].Position = D3DXVECTOR3(defx, defy, 0.0f );
 	vertex[0].Normal   = D3DXVECTOR3( 0.0f, 0.0f, 0.0f );
-	vertex[0].Diffuse  = D3DXVECTOR4( 1.0f, 1.0f, 1.0f, 1.0f );	// 色
-	vertex[0].TexCoord = D3DXVECTOR2( 0.0f, 0.0f );				// テクスチャの座標
+	vertex[0].Diffuse  = D3DXVECTOR4( 1.0f, 1.0f, 1.0f, 1.0f );	   // 色
+	vertex[0].TexCoord = D3DXVECTOR2(m_UV_Origin.x, m_UV_Origin.y);// テクスチャの座標
 
-	vertex[1].Position = D3DXVECTOR3( 10.0f, 0.0f, 0.0f );
+	vertex[1].Position = D3DXVECTOR3(defx + m_Size.x, defy, 0.0f );
 	vertex[1].Normal   = D3DXVECTOR3( 0.0f, 0.0f, 0.0f );
 	vertex[1].Diffuse  = D3DXVECTOR4( 1.0f, 1.0f, 1.0f, 1.0f );
-	vertex[1].TexCoord = D3DXVECTOR2( 1.0f, 0.0f );
+	vertex[1].TexCoord = D3DXVECTOR2(m_UV_Origin.x + m_UV_Size.x, 0.0f );
 
-	vertex[2].Position = D3DXVECTOR3( 0.0f, 10.0f, 0.0f );
+	vertex[2].Position = D3DXVECTOR3(defx, defy + m_Size.y, 0.0f );
 	vertex[2].Normal   = D3DXVECTOR3( 0.0f, 0.0f, 0.0f );
 	vertex[2].Diffuse  = D3DXVECTOR4( 1.0f, 1.0f, 1.0f, 1.0f );
-	vertex[2].TexCoord = D3DXVECTOR2( 0.0f, 1.0f );
+	vertex[2].TexCoord = D3DXVECTOR2( 0.0f, m_UV_Origin.y + m_UV_Size.y);
 
-	vertex[3].Position = D3DXVECTOR3( 10.0f, 10.0f, 0.0f );
+	vertex[3].Position = D3DXVECTOR3(defx + m_Size.x, defy + m_Size.y, 0.0f );
 	vertex[3].Normal   = D3DXVECTOR3( 0.0f, 0.0f, 0.0f );
 	vertex[3].Diffuse  = D3DXVECTOR4( 1.0f, 1.0f, 1.0f, 1.0f );
-	vertex[3].TexCoord = D3DXVECTOR2( 1.0f, 1.0f );
+	vertex[3].TexCoord = D3DXVECTOR2(m_UV_Origin.x + m_UV_Size.x, m_UV_Origin.y + m_UV_Size.y);
 
 	// 頂点バッファ生成
 	D3D11_BUFFER_DESC bd{};
@@ -111,31 +119,36 @@ void Polygon2D::Draw()
 
 void Polygon2D::SetTexture(int textureid, float x, float y, float size_width, float size_height,float start_u, float start_v, float texture_u,float texture_v)
 {
+	m_Coordinate = D3DXVECTOR2(x, y);
+	m_Size       = D3DXVECTOR2(size_width, size_height);
+	m_UV_Origin  = D3DXVECTOR2(start_u, start_v);
+	m_UV_Size    = D3DXVECTOR2(texture_u, texture_v);
+
 	// 頂点データ書き換え
 	VERTEX_3D vertex[4];
 
-	float defx = x - size_width / 2;
-	float defy = y - size_height / 2;
+	float defx = m_Coordinate.x - m_Size.x / 2;
+	float defy = m_Coordinate.y - m_Size.y / 2;
 
 	vertex[0].Position = D3DXVECTOR3(defx, defy, 0.0f);
-	vertex[0].Normal   = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	vertex[0].Diffuse  = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);	// 色
-	vertex[0].TexCoord = D3DXVECTOR2(start_u, start_v);				// テクスチャの座標
+	vertex[0].Normal   = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	vertex[0].Diffuse  = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);	   // 色
+	vertex[0].TexCoord = D3DXVECTOR2(m_UV_Origin.x, m_UV_Origin.y);// テクスチャの座標
 
-	vertex[1].Position = D3DXVECTOR3(defx + size_width, defy, 0.0f);
-	vertex[1].Normal   = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	vertex[1].Position = D3DXVECTOR3(defx + m_Size.x, defy, 0.0f);
+	vertex[1].Normal   = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	vertex[1].Diffuse  = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[1].TexCoord = D3DXVECTOR2(start_u + texture_u, start_v);
+	vertex[1].TexCoord = D3DXVECTOR2(m_UV_Origin.x + m_UV_Size.x, 0.0f);
 
-	vertex[2].Position = D3DXVECTOR3(defx, defy + size_height, 0.0f);
-	vertex[2].Normal   = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	vertex[2].Position = D3DXVECTOR3(defx, defy + m_Size.y, 0.0f);
+	vertex[2].Normal   = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	vertex[2].Diffuse  = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[2].TexCoord = D3DXVECTOR2(start_u, start_v + texture_v);
+	vertex[2].TexCoord = D3DXVECTOR2(0.0f, m_UV_Origin.y + m_UV_Size.y);
 
-	vertex[3].Position = D3DXVECTOR3(defx + size_width, defy + size_height, 0.0f);
-	vertex[3].Normal   = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	vertex[3].Position = D3DXVECTOR3(defx + m_Size.x, defy + m_Size.y, 0.0f);
+	vertex[3].Normal   = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	vertex[3].Diffuse  = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[3].TexCoord = D3DXVECTOR2(start_u + texture_u, start_v + texture_v);
+	vertex[3].TexCoord = D3DXVECTOR2(m_UV_Origin.x + m_UV_Size.x, m_UV_Origin.y + m_UV_Size.y);
 
 	// 頂点バッファ生成
 	D3D11_BUFFER_DESC bd{};
@@ -159,4 +172,8 @@ void Polygon2D::SetTexture(int textureid, float x, float y, float size_width, fl
 	Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, NULL, 0);
 	Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);
 
+}
+
+void Polygon2D::SetCoordinate(float x, float y)
+{
 }
